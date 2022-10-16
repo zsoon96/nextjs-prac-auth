@@ -54,17 +54,6 @@ export default NextAuth({
                 else {
                     return null;
                 }
-
-                //return credentials;
-
-                // const email = credentials.email;
-                // const password = credentials.password;
-                //
-                // // 로그인 성공 여부 임시코드
-                // if (email === 'test@test.com' && password === 'test'){
-                //     return credentials
-                // }
-                // throw new Error('아이디 혹은 비밀번호가 틀립니다.')
             }
         })
     ],

@@ -1,6 +1,6 @@
 import {signIn} from "next-auth/client";
 import {useRouter} from "next/router";
-import {FieldError, useForm,} from "react-hook-form";
+import {useForm,} from "react-hook-form";
 
 const Login = () => {
     const router = useRouter();
@@ -11,10 +11,6 @@ const Login = () => {
     }
     const {register, watch, handleSubmit, formState: {errors}} = useForm<HookFormTypes>();
     console.log(watch())
-
-    const onSubmit = (data: any) => {
-        console.log(data)
-    }
 
     const login = async (data: HookFormTypes) => {
         console.log(data)
