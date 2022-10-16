@@ -38,5 +38,24 @@ export default NextAuth({
     // 커스텀 로그인 화면 맵핑
     pages: {
         signIn: '/login',
+    },
+    // session을 이용해 꺼낼 수 있는 데이터는 email, name, image인데,
+    // 사용자마다 session에 저장하고싶은 데이터가 다를 수 있기 때문에 그럴 경우 callbacks 옵션을 추가하여 사용
+    callbacks: {
+        // 로그인 인증 성공시, jwt()에서 토큰이 생성되고,
+        async jwt(token, user, account, profile, isNewUser) {
+            // 토큰 정보에다가 커스텀으로 넣어주고 싶은 데이터 작성
+            token.userId = 1
+            token.test='test'
+            return token
+        },
+        // 생성된 토큰을 기반으로 session이 생성됨
+        async session(session:any, userOrToken:any) {
+            // userOrToken 파라미터로 토큰 정보를 전달받아 session에 데이터를 넣어줌
+            session.user.userId = userOrToken.userId;
+            session.user.test = userOrToken.test;
+            console.log(session)
+            return session
+        }
     }
 })
