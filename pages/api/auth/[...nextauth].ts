@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
 import {NextApiRequest} from "next";
+import { signIn } from "next-auth/client";
 
 // 로그인 인증을 처리할 파일 생성
 
@@ -24,4 +25,8 @@ export default NextAuth({
             }
         })
     ],
+    // 커스텀 로그인 화면 맵핑
+    pages: {
+        signIn: '/login',
+    }
 })
