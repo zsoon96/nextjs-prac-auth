@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/client"
 
-const Login = () => {
+const Home = () => {
   const [session, loading] = useSession();
   if (session) {
     return (
@@ -18,4 +18,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default Home;

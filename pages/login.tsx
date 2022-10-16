@@ -15,11 +15,17 @@ const Login = () => {
             password,
             redirect: false,
             // 로그인 성공시 이동할 페이지 url 설정
-            callbackUrl: 'http://localhost:3000/user'
+            callbackUrl: 'http://localhost:3000'
         });
         // response가 반환해주는 데이터 중 url이 callbackUrl에 정의된 내용이 들어옴
         // 즉, response.url = 'http://localhost:3000/user'
-        await router.push(response.url)
+        try {
+            await router.push(response.url)
+        } catch (err) {
+            console.log(err)
+            alert('아이디와 비밀번호를 확인해주세요.')
+        }
+
     }
 
     return (

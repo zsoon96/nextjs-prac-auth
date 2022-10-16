@@ -1,8 +1,12 @@
 import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
 import {NextApiRequest} from "next";
+import axios from "axios";
+import {Cookies} from "next/dist/server/web/spec-extension/cookies";
 
 // 로그인 인증을 처리할 파일 생성
+
+const cookies = new Cookies(); //쿠키 사용을 위해 선언
 
 export default NextAuth({
     // 로그인 인증 방식 설정하기
@@ -23,15 +27,43 @@ export default NextAuth({
             // 해당 부분에서 들어온 데이터를 가지고 인증을 진행
             // (지금은 무조건 인증되는 방식으로 처리)
             async authorize(credentials: Record<any, any>, req: NextApiRequest){
-
-                const email = credentials.email;
-                const password = credentials.password;
-
-                // 로그인 성공 여부 임시코드
-                if (email === 'test@test.com' && password === 'test'){
-                    return credentials
+                const body = {
+                    email : credentials.email,
+                    password : credentials.password
                 }
-                throw new Error('아이디 혹은 비밀번호가 틀립니다.')
+
+                const res = await axios.post('http://localhost:3001/auth/login', body )
+
+                const user = await res.data;
+
+                const credentialsInfo = {
+                    email: credentials.email,
+                    accessToken: user.accessToken,
+                    loginSuccess: user.loginSuccess,
+                }
+
+                if (res.status === 201 && user.loginSuccess) {
+                    cookies.set("accessToken", user.accessToken, {
+                        path: '/',
+                        secure: true,
+                        sameSite: 'none'
+                    })
+                    return credentialsInfo;
+                }
+                else {
+                    return null;
+                }
+
+                //return credentials;
+
+                // const email = credentials.email;
+                // const password = credentials.password;
+                //
+                // // 로그인 성공 여부 임시코드
+                // if (email === 'test@test.com' && password === 'test'){
+                //     return credentials
+                // }
+                // throw new Error('아이디 혹은 비밀번호가 틀립니다.')
             }
         })
     ],
@@ -45,15 +77,15 @@ export default NextAuth({
         // 로그인 인증 성공시, jwt()에서 토큰이 생성되고,
         async jwt(token, user, account, profile, isNewUser) {
             // 토큰 정보에다가 커스텀으로 넣어주고 싶은 데이터 작성
-            token.userId = 1
-            token.test='test'
+            token.accessToken=cookies.get("accessToken");
+            token.loginSuccess;
             return token
         },
         // 생성된 토큰을 기반으로 session이 생성됨
         async session(session:any, userOrToken:any) {
             // userOrToken 파라미터로 토큰 정보를 전달받아 session에 데이터를 넣어줌
-            session.user.userId = userOrToken.userId;
-            session.user.test = userOrToken.test;
+            session.user.accessToken = userOrToken.accessToken;
+            session.user.loginSuccess = userOrToken.loginSuccess;
             console.log(session)
             return session
         }
