@@ -6,7 +6,7 @@ import {Cookies} from "next/dist/server/web/spec-extension/cookies";
 
 // 로그인 인증을 처리할 파일 생성
 
-const cookies = new Cookies(); //쿠키 사용을 위해 선언
+const cookies = new Cookies(); // 쿠키 사용을 위해 선언
 
 export default NextAuth({
     // 로그인 인증 방식 설정하기
@@ -43,6 +43,7 @@ export default NextAuth({
                 }
 
                 if (res.status === 201 && user.loginSuccess) {
+                    // 응답으로 받은 엑세스 토큰 쿠키에 저장
                     cookies.set("accessToken", user.accessToken, {
                         path: '/',
                         secure: true,
@@ -77,8 +78,8 @@ export default NextAuth({
         // 로그인 인증 성공시, jwt()에서 토큰이 생성되고,
         async jwt(token, user, account, profile, isNewUser) {
             // 토큰 정보에다가 커스텀으로 넣어주고 싶은 데이터 작성
-            token.accessToken=cookies.get("accessToken");
-            token.loginSuccess;
+            token.accessToken = cookies.get("accessToken");
+            token.loginSuccess = user?.loginSuccess;
             return token
         },
         // 생성된 토큰을 기반으로 session이 생성됨
