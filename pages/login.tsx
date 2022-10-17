@@ -1,36 +1,49 @@
-import {signIn} from "next-auth/client";
 import {useRouter} from "next/router";
 import {useForm,} from "react-hook-form";
+import {useAuth} from "../src/hooks/useAuth";
+
+
+interface FormData {
+    email: string
+    password: string
+}
 
 const Login = () => {
     const router = useRouter();
+    const auth = useAuth()
 
     type HookFormTypes = {
         email: string;
         password: string;
     }
     const {register, watch, handleSubmit, formState: {errors}} = useForm<HookFormTypes>();
-    console.log(watch())
+    // console.log(watch())
 
-    const login = async (data: HookFormTypes) => {
-        console.log(data)
-        // Form 안에서 이메일, 패스워드 가져오기
-        // [...nextauth]에서 설정한 provider 호출
-        const response: any = await signIn("email-password-credential", {
-            email: data.email,
-            password: data.password,
-            redirect: false,
-            // 로그인 성공시 이동할 페이지 url 설정
-            callbackUrl: 'http://localhost:3000'
-        });
-        // response가 반환해주는 데이터 중 url이 callbackUrl에 정의된 내용이 들어옴
-        // 즉, response.url = 'http://localhost:3000/user'
-        try {
-            await router.push(response.url)
-        } catch (err) {
-            console.log(err)
-            alert('아이디와 비밀번호를 확인해주세요.')
-        }
+    // const login = async (data: HookFormTypes) => {
+    //     console.log(data)
+    //     // Form 안에서 이메일, 패스워드 가져오기
+    //     // [...nextauth]에서 설정한 provider 호출
+    //     const response: any = await signIn("email-password-credential", {
+    //         email: data.email,
+    //         password: data.password,
+    //         redirect: false,
+    //         // 로그인 성공시 이동할 페이지 url 설정
+    //         callbackUrl: 'http://localhost:3000'
+    //     });
+    //     // response가 반환해주는 데이터 중 url이 callbackUrl에 정의된 내용이 들어옴
+    //     // 즉, response.url = 'http://localhost:3000/user'
+    //     try {
+    //         await router.push(response.url)
+    //     } catch (err) {
+    //         console.log(err)
+    //         alert('아이디와 비밀번호를 확인해주세요.')
+    //     }
+    // }
+
+    const login = (data:FormData) => {
+        const { email , password } = data;
+        // @ts-ignore
+        auth.login({email, password})
     }
 
     return (
