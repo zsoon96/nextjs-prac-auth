@@ -12,6 +12,7 @@ function MyApp({Component, pageProps}: AppProps) {
 
     return (
         // <Provider session={session}>
+        // 리덕스 적용
         <Provider store={store}>
             <AuthContextProvider>
                 <Component {...pageProps} />
