@@ -4,13 +4,13 @@ export const TOGGLE_TODO = <const>'todos/TOGGLE_TODO';
 export const REMOVE_TODO = <const>'todos/REMOVE_TODO';
 
 // 새로운 항목 추가 시 사용할 고유 Id 값
-const todoId = 1;
+let todoId = 1;
 
 // 액션 생성 함수
 export const addTodo = (text:string) => ({
     type: ADD_TODO,
     payload: {
-        id: todoId + 1,
+        id: todoId++,
         text
     }
 })
