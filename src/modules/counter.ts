@@ -27,10 +27,9 @@ const initialState: CounterState = { count: 0 }
 
 // counter reducer
 // 객체 형식으로 입력
-const counter = createReducer<CounterState, CounterAction> (initialState, {
-    [INCREASE]: state => ({ count: state.count + 1 }),
-    [DECREASE]: state => ({ count: state.count - 1 }),
-    [INCREASE_BY]: (state, action) => ({ count: state.count + action.payload})
-})
+const counter = createReducer<CounterState, CounterAction> (initialState)
+    .handleAction(INCREASE, state => ({ count: state.count + 1 }))
+    .handleAction(DECREASE, state => ({ count: state.count - 1 }))
+    .handleAction(INCREASE_BY, (state, action) => ({ count: state.count + action.payload }))
 
 export default counter
