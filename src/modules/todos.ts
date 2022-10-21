@@ -1,4 +1,4 @@
-import {createReducer, deprecated} from 'typesafe-actions';
+import {ActionType, createReducer, deprecated} from 'typesafe-actions';
 
 const {createStandardAction, createAction} = deprecated
 
@@ -37,16 +37,16 @@ export const removeTodo = createStandardAction(REMOVE_TODO)<number>()
 // })
 
 // 모든 액션 객체에 대한 타입 정의
-type TodosAction =
-    | ReturnType<typeof addTodo>
-    | ReturnType<typeof toggleTodo>
-    | ReturnType<typeof removeTodo>
-// const actions = {
-//     addTodo,
-//     toggleTodo,
-//     removeTodo
-// }
-// type TodosAction = ActionType<typeof actions>
+// type TodosAction =
+//     | ReturnType<typeof addTodo>
+//     | ReturnType<typeof toggleTodo>
+//     | ReturnType<typeof removeTodo>
+const actions = {
+    addTodo,
+    toggleTodo,
+    removeTodo
+}
+type TodosAction = ActionType<typeof actions>
 
 // 상태에서 사용할 할일 항목 데이터 타입 정의
 export type Todo = {
