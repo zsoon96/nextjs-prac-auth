@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from "react-redux"
-import {RootState} from "../modules"
-import {addTodo, removeTodo, toggleTodo} from "../modules/todos";
-import TodoInsert from "../components/TodoInsert";
-import TodoList from "../components/TodoList";
+import {RootState} from "../src/modules"
+import {addTodo, removeTodo, toggleTodo} from "../src/modules/todos";
+import TodoInsert from "../src/components/TodoInsert";
+import TodoList from "../src/components/TodoList";
 
 // Todo List 최상위 컴포넌트
 const TodoApp = () => {
