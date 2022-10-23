@@ -4,8 +4,10 @@ import {AuthContextProvider} from "../src/context/AuthContext";
 import rootReducer from "../src/modules";
 import {createStore} from "redux";
 import {Provider} from 'react-redux';
+import store from '../src/modules/store'
 
-const store = createStore(rootReducer)
+
+// const store = createStore(rootReducer)
 
 // @ts-ignore
 function MyApp({Component, pageProps}: AppProps) {
