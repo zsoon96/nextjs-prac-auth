@@ -4,6 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 axios.defaults.baseURL = "https://reqres.in/"
 
+// 외부 서버에서 데이터 받아오기
 export const loadUser = createAsyncThunk('user/loadUser', async (id, thunkApi) => {
     try {
         const response = await axios.get(`api/users/${id}`)
@@ -15,6 +16,7 @@ export const loadUser = createAsyncThunk('user/loadUser', async (id, thunkApi) =
     }
 })
 
+// user 타입 정의
 interface User {
     id: number,
     email: string,
@@ -23,6 +25,7 @@ interface User {
     avatar: string
 }
 
+// 리덕스에서 관리할 user 상태값 정의
 interface UserState {
     val: number,
     loadUserLoading: boolean,
@@ -31,6 +34,7 @@ interface UserState {
     user: User | null
 }
 
+// 초기 상태 값 설정
 const initialState: UserState = {
     val: 0,
     loadUserLoading: false,
@@ -39,11 +43,13 @@ const initialState: UserState = {
     user: null
 }
 
+// 슬라이스 생성
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {},
 
+    // createAsyncThunk에서 전달된 생명주기 액션들은 여기서 적절한 작업 수행
     extraReducers: (builder) => {
         builder
             .addCase(loadUser.pending, (state) => {
@@ -61,4 +67,4 @@ export const userSlice = createSlice({
     }
 })
 
-export default userSlice.reducer
+export default userSlice.reducer;

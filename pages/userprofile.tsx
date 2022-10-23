@@ -11,7 +11,7 @@ function UserProfile() {
     console.log('user', user)
 
     useEffect(() => {
-        // @ts-ignore
+        // createAsuncThunk로 만든 비동기 액션 함수를 컴포넌트 렌더링 될 때 실행
         dispatch(loadUser(2))
     },[])
 
