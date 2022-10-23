@@ -8,7 +8,9 @@ const store = configureStore({
     reducer: {
         counter: counterSlice.reducer,
         user: userSlice.reducer
-    }
+    },
+    // redux-devtool 사용 설정
+    devTools: true
 })
 
 // store export

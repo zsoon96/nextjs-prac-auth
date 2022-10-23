@@ -27,7 +27,6 @@ interface User {
 
 // 리덕스에서 관리할 user 상태값 정의
 interface UserState {
-    val: number,
     loadUserLoading: boolean,
     loadUserDone: boolean,
     loadUserError: any,
@@ -36,7 +35,6 @@ interface UserState {
 
 // 초기 상태 값 설정
 const initialState: UserState = {
-    val: 0,
     loadUserLoading: false,
     loadUserDone: false,
     loadUserError: null,
