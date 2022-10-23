@@ -127,3 +127,20 @@
     filter: invert(1);
   }
 }
+
+.loadUser{
+  display: flex;
+  flex-direction: column;
+}
+
+.loadUser > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loadUser > div > p {
+  width: 100px;
+  text-align: center;
+  margin-right: 5px;
+}
