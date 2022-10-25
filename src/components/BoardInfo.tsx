@@ -1,4 +1,18 @@
-const BoardInfo = () => {
+import Board from "../modules/board";
+
+interface Board {
+    id: number,
+    title: string,
+    author: string,
+    content: string,
+    regDate: string
+}
+
+type BoardInfoProps = {
+    board: Board
+}
+const BoardInfo = ({board} : BoardInfoProps) => {
+    console.log('컴포넌트간 정보 전달', board)
     return (
         <div style={{ backgroundColor: 'white', width: '80%', margin: '36px auto', borderRadius: '10px', padding: '10px 24px'}}>
             <p style={{ color: 'black' }}>NO</p>
