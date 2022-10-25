@@ -1,10 +1,15 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const loadBoard = createAsyncThunk('board/loadBoard', async (id) => {
+export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     try {
-        const res = await axios.get('http://localhost:3001/board')
+        const res = await axios.get('http://localhost:3001/board', {
+            headers: {
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
+        })
         console.log('게시글 정보 조회', res.data)
+        return res.data
     } catch (err) {
         console.log('응답 실패', err)
         return err
@@ -16,6 +21,7 @@ interface Board {
     id: number
     title: string
     author: string
+    content: string
     regDate: string
 }
 
@@ -46,8 +52,8 @@ export const boardSlice = createSlice({
             })
             .addCase(loadBoard.fulfilled, (state, action) => {
                 state.loadBoardDone = true
-                // @ts-ignore
                 state.board = action.payload
+                console.log('action', action.payload)
             })
             .addCase(loadBoard.rejected, (state, action) => {
                 state.loadBoardDone = true
