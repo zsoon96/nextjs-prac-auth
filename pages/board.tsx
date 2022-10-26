@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../src/modules/store";
 import {useEffect} from "react";
 import {loadBoard} from "../src/modules/board";
+import BoardList from "../src/components/BoardList";
 
 
 const Board = () => {
@@ -18,7 +19,7 @@ const Board = () => {
     return (
         <div>
             {/* 불러온 board 데이터 전달 */}
-            <BoardInfo board={board} />
+            <BoardList boards={board} />
         </div>
     )
 }
