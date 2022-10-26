@@ -13,8 +13,7 @@ type BoardInfoProps = {
 }
 
 const BoardList = ({boards}: BoardInfoProps) => {
-    console.log('데이터 왓어?', boards)
-    return (
+팅    return (
         <div>
             {boards && boards.map((board) => (
                 <div key={board.id} style={{
@@ -24,7 +23,7 @@ const BoardList = ({boards}: BoardInfoProps) => {
                     borderRadius: '10px',
                     padding: '10px 24px'
                 }}>
-                    <Link href={`/view/${board.id}`}>
+                    <Link href={`board/view/${board.id}`}>
                         <a>
                             <p style={{color: 'black'}}>NO {board.id}</p>
                             <p style={{color: 'black', fontSize: '24px'}}>{board.title}</p>

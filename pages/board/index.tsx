@@ -1,12 +1,11 @@
-import BoardInfo from "../src/components/BoardInfo";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../src/modules/store";
+import {RootState} from "../../src/modules/store";
 import {useEffect} from "react";
-import {loadBoard} from "../src/modules/board";
-import BoardList from "../src/components/BoardList";
+import {loadBoard} from "../../src/modules/board";
+import BoardList from "../../src/components/BoardList";
 
 
-const Board = () => {
+const BoardApp = () => {
     const dispatch = useDispatch()
     const {board} = useSelector((state:RootState) => state.board)
 
@@ -24,4 +23,4 @@ const Board = () => {
     )
 }
 
-export default Board
+export default BoardApp
