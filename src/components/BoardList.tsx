@@ -13,7 +13,7 @@ type BoardInfoProps = {
 }
 
 const BoardList = ({boards}: BoardInfoProps) => {
-팅    return (
+    return (
         <div>
             {boards && boards.map((board) => (
                 <div key={board.id} style={{

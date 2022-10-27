@@ -1,6 +1,4 @@
-import {useEffect, useState} from "react";
 import BoardInfo from "../../../src/components/BoardInfo";
-import {useRouter} from "next/router";
 import axios from "axios";
 
 interface Board {
@@ -11,25 +9,25 @@ interface Board {
     regDate: string
 }
 
-type BoardInfoProps = {
-    board: Board
-}
+// type BoardInfoProps = {
+//     board: Board
+// }
 
-const BoardDetail = ({board} : BoardInfoProps) => {
-    // const [data, setData] = useState()
+// board는 getServerSideProps에서 조회해서 받은 정보
+const BoardDetail = ({board} : any) => {
     console.log('data',board)
 
-    const router = useRouter()
-    const { id } = router.query
+    // const router = useRouter()
+    // const { id } = router.query
 
-    useEffect( () => {
-        if ( id && id > 0 ) {
-            axios.get(`http://loacalhost:3001/board/${id}`)
-                .then((res) => {
-                    console.log('게시글 정보', res.data)
-                })
-        }
-    },[id])
+    // url의 id값으로 비동기 통신 요청 시도 1 - useEffect로 데이터를 가져오면 network error 발생
+    // useEffect( () => {
+    //     axios.get(`http://loacalhost:3001/board/${id}`)
+    //         .then((res) => {
+    //             console.log('게시글 정보', res.data)
+    //             setData(res.data)
+    //         })
+    // },[id])
 
     return (
         <>
@@ -41,5 +39,60 @@ const BoardDetail = ({board} : BoardInfoProps) => {
         </>
     )
 }
+
+// 데이터 받아오기 위한 SSR
+export async function getServerSideProps(context: any) {
+    const id = context.query.id
+    const board: Board = await (await axios.get(`http://localhost:3001/board/${id}`)).data;
+    return {
+        props: { board },
+    };
+}
+
+// url의 id값으로 비동기 통신 요청 시도 2 - getServerSideProps를 아래와 같이 사용하면 'getaddrinfo ENOTFOUND loacalhost' error 발생
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     try {
+//         const board = await axios.get(`http://loacalhost:3001/board/${context.query.id}`)
+//             .then((res) => res.data.json())
+//             .catch((err) => console.log(err))
+//
+//         return {
+//             props: { board }
+//         }
+//     } catch (err) {
+//         console.log(err)
+//         return {
+//             props: { }
+//         }
+//     }
+// }
+
+// url의 id값으로 비동기 통신 요청 시도 3 - 아래 getStaticPaths + getStaticProps로 같이 쓰면 페이지 이동 자체가 안됨
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     const res = await axios.get('http://localhost:3001/board')
+//     console.log(res)
+//     const boards: Board[] = await res.data
+//
+//     const paths = boards.map((board: Board) => ({
+//         params: { id: `${board.id}` }
+//     }))
+//
+//     return {
+//         paths,
+//         fallback: false
+//     }
+// }
+
+// export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
+//     const res = await axios.get(`http://loacalhost:3001/board/${params}`)
+//     const board: Board[] = res.data
+//
+//     return {
+//         props: {
+//             board,
+//             id: params?.id
+//         }
+//     }
+// }
 
 export default BoardDetail
