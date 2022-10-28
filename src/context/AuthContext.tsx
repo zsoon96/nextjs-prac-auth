@@ -56,6 +56,7 @@ export const AuthContextProvider = ({children}) => {
                     })
             } else {
                 setIsAuth(false)
+                window.localStorage.removeItem('accessToken')
             }
         }
         initAuth();
@@ -65,6 +66,9 @@ export const AuthContextProvider = ({children}) => {
         await axios.post('http://localhost:3001/auth/login', params)
             .then(async res => {
                 window.localStorage.setItem('accessToken', res.data.accessToken)
+
+                // 모든 요청에 토큰 장착
+                // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
             })
             .then(()=>{
                 axios.get('http://localhost:3001/auth/me', {
@@ -76,6 +80,7 @@ export const AuthContextProvider = ({children}) => {
                         console.log(res.data)
                         setUser({...res.data})
                         setIsAuth(true)
+
 
                         await router.push('/')
                     })
