@@ -15,8 +15,6 @@ interface Board {
 
 // board는 getServerSideProps에서 조회해서 받은 정보
 const BoardDetail = ({board} : any) => {
-    console.log('data',board)
-
     // const router = useRouter()
     // const { id } = router.query
 
@@ -41,8 +39,10 @@ const BoardDetail = ({board} : any) => {
 }
 
 // 데이터 받아오기 위한 SSR
-export async function getServerSideProps(context: any) {
-    const id = context.query.id
+export async function getServerSideProps( {params}:any ) {
+    // const id = context.query.id
+    const id = params.id
+    console.log('id', id)
     const board: Board = await (await axios.get(`http://localhost:3001/board/${id}`)).data;
     return {
         props: { board },
