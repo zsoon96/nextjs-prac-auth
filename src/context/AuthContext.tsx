@@ -57,6 +57,7 @@ export const AuthContextProvider = ({children}) => {
             } else {
                 setIsAuth(false)
                 window.localStorage.removeItem('accessToken')
+                await router.replace('/login')
             }
         }
         initAuth();
