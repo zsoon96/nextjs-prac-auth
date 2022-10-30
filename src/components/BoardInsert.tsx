@@ -14,13 +14,14 @@ const BoardInsert = () => {
     // 입력값 동작을 위한 handleSubmit()
     // 입력값 초기화를 위한 reset()
     // 입력값 별도 설정을 위한 setValue()
-    const { register, handleSubmit, reset, setValue } = useForm<FormType>()
+    // 손쉬운 에러처리를 위한 formState
+    const { register, handleSubmit, reset, setValue, formState: {errors} } = useForm<FormType>()
 
     // 입력된 데이터가 유효하다면 실행될 함수
     const onValid = (data:FormType) => {
         setValue("title", "제목은 이걸로 입력되게 하기")
         console.log(data)
-        reset()
+        // reset()
     }
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수
     const onInvalid = (errors:FieldErrors) => console.log(errors)
@@ -39,32 +40,35 @@ const BoardInsert = () => {
                 <div style={{color: 'black', marginBottom: '20px'}}>
                     <div style={{ marginBottom: '10px'}}>제목</div>
                     <input
-                        {...register('title', { required: true })}
+                        {...register('title', { required: {value: true, message: '필수 입력값입니다.'} })}
                         type="title" placeholder="제목을 입력해주세요."
                         style={{padding: '10px', borderRadius: '8px', width:'100%'}}
                     />
+                    <span style={{ color: 'red', fontSize: '14px'}}>{errors.title?.message}</span>
                 </div>
 
                 <div style={{color: 'black', marginBottom: '20px'}}>
                     <div style={{ marginBottom: '10px'}}>내용</div>
                     <input
-                        {...register('content', { required: true })}
+                        {...register('content', { required: {value: true, message: '필수 입력값입니다.'} })}
                         type="content" placeholder="내용을 입력해주세요."
                         style={{padding: '10px', borderRadius: '8px', width:'100%'}}
                     />
+                    <span style={{ color: 'red', fontSize: '14px'}}>{errors.content?.message}</span>
                 </div>
 
                 <div style={{color: 'black', marginBottom: '20px'}}>
                     <div style={{ marginBottom: '10px'}}>작성자</div>
                     <input
                         {...register('author', {
-                            required: true,
+                            required: { value: true, message: '필수 입력값입니다.' },
                             maxLength: { value: 4, message: "4글자 이내로 입력해주세요."},
-                            validate: {noAdmin: (value) => !value.includes('admin') || '해당 입력값은 허용되지 않습니다.'}
+                            validate: { noAdmin: (value) => !value.includes('ad') || '해당 입력값은 허용되지 않습니다.' }
                         })}
                         type="author" placeholder="작성자를 입력해주세요."
                         style={{padding: '10px', borderRadius: '8px', width:'100%'}}
                     />
+                    <span style={{ color: 'red', fontSize: '14px'}}>{errors.author?.message}</span>
                 </div>
                 <input type="submit" style={{padding: '10px', borderRadius: '8px'}} />
             </div>
