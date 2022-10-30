@@ -11,10 +11,17 @@ interface FormType {
 
 const BoardInsert = () => {
     // 등록 & 검증을 위한 register()
-    const { register, handleSubmit } = useForm<FormType>()
+    // 입력값 동작을 위한 handleSubmit()
+    // 입력값 초기화를 위한 reset()
+    // 입력값 별도 설정을 위한 setValue()
+    const { register, handleSubmit, reset, setValue } = useForm<FormType>()
 
     // 입력된 데이터가 유효하다면 실행될 함수
-    const onValid = (data:FormType) => console.log(data);
+    const onValid = (data:FormType) => {
+        setValue("title", "제목은 이걸로 입력되게 하기")
+        console.log(data)
+        reset()
+    }
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수
     const onInvalid = (errors:FieldErrors) => console.log(errors)
 
