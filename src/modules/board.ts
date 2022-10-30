@@ -1,5 +1,6 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, createAction, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
+import {StateType} from "./counter2";
 
 export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     try {
@@ -16,14 +17,24 @@ export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     }
 })
 
+export const addBoard = createAction('board/addBoard')
+
 // 게시글에 대한 타입 정의
-interface Board {
+interface Board  {
     id: number
     title: string
     author: string
     content: string
     regDate: string
 }
+
+// export type Index = {
+//     id: number,
+//     title: string,
+//     author: string,
+//     content: string,
+//     regDate: string
+// }
 
 // 리듀서에서 관리할 상태값 정의
 interface BoardState {
@@ -44,7 +55,13 @@ const initialState: BoardState = {
 export const boardSlice = createSlice({
     name: 'board',
     initialState,
-    reducers: {},
+    reducers: {
+        addBoard: (state: BoardState, action: PayloadAction<Board>) => {
+            console.log('액션 함수 실행', action.payload)
+            // 기존 state 배열에 새 객체 추가
+            state.board?.push(action.payload)
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(loadBoard.pending, (state) => {
@@ -53,7 +70,7 @@ export const boardSlice = createSlice({
             .addCase(loadBoard.fulfilled, (state, action) => {
                 state.loadBoardDone = true
                 state.board = action.payload
-                console.log('action', action.payload)
+                // console.log('action', action.payload)
             })
             .addCase(loadBoard.rejected, (state, action) => {
                 state.loadBoardDone = true
