@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, createAction, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
-import {StateType} from "./counter2";
+import board from "../../pages/board";
 
 export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     try {
@@ -17,7 +17,7 @@ export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     }
 })
 
-export const addBoard = createAction('board/addBoard')
+// export const addBoard = createAction('board/addBoard')
 
 // 게시글에 대한 타입 정의
 interface Board  {
@@ -41,7 +41,7 @@ interface BoardState {
     loadBoardLoading: boolean
     loadBoardDone: boolean
     loadBoardError: any
-    board: Board[] | null
+    board: Board[]
 }
 
 // 초기 상태값
@@ -49,7 +49,7 @@ const initialState: BoardState = {
     loadBoardLoading: false,
     loadBoardDone: false,
     loadBoardError: null,
-    board: null
+    board: []
 }
 
 export const boardSlice = createSlice({
@@ -59,7 +59,14 @@ export const boardSlice = createSlice({
         addBoard: (state: BoardState, action: PayloadAction<Board>) => {
             console.log('액션 함수 실행', action.payload)
             // 기존 state 배열에 새 객체 추가
-            state.board?.push(action.payload)
+            // state.board?.push(action.payload)
+            state.board =[...state.board, {
+                id: 20,
+                title: action.payload.title,
+                content: action.payload.content,
+                author: action.payload.author,
+                regDate: '2022-10-31'
+            } ]
         },
     },
     extraReducers: (builder) => {
@@ -79,5 +86,7 @@ export const boardSlice = createSlice({
             })
     }
 })
+
+export const { addBoard } = boardSlice.actions
 
 export default boardSlice.reducer
