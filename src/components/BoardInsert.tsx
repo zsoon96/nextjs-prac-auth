@@ -1,13 +1,27 @@
+import {FieldError, FieldErrors, useForm} from "react-hook-form";
 
 // 게시글 작성 UI 컴포넌트
-import {useForm} from "react-hook-form";
+
+// 입력 데이터 속성 타입 정의
+interface FormType {
+    title: string
+    content: string
+    author: string
+}
 
 const BoardInsert = () => {
     // 등록 & 검증을 위한 register()
-    const { register } = useForm()
+    const { register, handleSubmit } = useForm<FormType>()
+
+    // 입력된 데이터가 유효하다면 실행될 함수
+    const onValid = (data:FormType) => console.log(data);
+    // 입력된 데이터가 유효하지 않다면 실행될 에러 함수
+    const onInvalid = (errors:FieldErrors) => console.log(errors)
 
     return (
-        <form>
+        // 최종 호출 시, 데이터 처리 함수
+        // handleSubmit (유효한 입력 값일 때 실행할 함수, 유효하지 않은 값일 때 실행할 에러 함수)
+        <form onSubmit={handleSubmit(onValid, onInvalid)}>
             <div style={{
                 backgroundColor: 'white',
                 width: '80%',
@@ -45,7 +59,7 @@ const BoardInsert = () => {
                         style={{padding: '10px', borderRadius: '8px', width:'100%'}}
                     />
                 </div>
-                <input type="submit"/>
+                <input type="submit" style={{padding: '10px', borderRadius: '8px'}} />
             </div>
         </form>
     )
