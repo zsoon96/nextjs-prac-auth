@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
-import {router} from "next/client";
+import { NextApiResponse } from "next";
 
 // 현재 사용자의 인증상태를 추적하는 파일
 
@@ -54,9 +54,13 @@ export const AuthContextProvider = ({children}) => {
                         console.log(res)
                         setUser({...res.data})
                     })
+                    .catch(() => {
+                        window.localStorage.removeItem('accessToken')
+                        setUser(null)
+                        setIsAuth(false)
+                    })
             } else {
                 setIsAuth(false)
-                window.localStorage.removeItem('accessToken')
                 await router.replace('/login')
             }
         }
@@ -69,20 +73,18 @@ export const AuthContextProvider = ({children}) => {
                 window.localStorage.setItem('accessToken', res.data.accessToken)
 
                 // 모든 요청에 토큰 장착
-                // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
             })
             .then(()=>{
-                axios.get('http://localhost:3001/auth/me', {
-                    headers: {
-                        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    }
-                })
+                axios.get('http://localhost:3001/auth/me')
                     .then(async res => {
                         console.log(res.data)
                         setUser({...res.data})
                         setIsAuth(true)
 
-
+                        // const returnUrl = router.query.returnUrl
+                        // const redirectUrl = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+                        // router.replace(redirectUrl as string)
                         await router.push('/')
                     })
             })
