@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, createAction, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
 import board from "../../pages/board";
 
@@ -57,17 +57,29 @@ export const boardSlice = createSlice({
     initialState,
     reducers: {
         addBoard: (state: BoardState, action: PayloadAction<Board>) => {
-            console.log('액션 함수 실행', action.payload)
+            // console.log('액션 함수 실행', action.payload)
             // 기존 state 배열에 새 객체 추가
-            // state.board?.push(action.payload)
             state.board =[...state.board, {
-                id: 20,
+                id: action.payload.id,
                 title: action.payload.title,
                 content: action.payload.content,
                 author: action.payload.author,
-                regDate: '2022-10-31'
+                regDate: action.payload.regDate
             } ]
         },
+        editBoard: (state: BoardState, action: PayloadAction<Board>) => {
+            // console.log('액션 함수 실행', action.payload)
+            const {title, content, author, regDate} = action.payload
+
+            state.board = state.board.map((b, idx) => {
+                console.log(idx === action.payload.id)
+                if (idx === action.payload.id) {
+                    return {...b, title: title, content: content, author: author, regDate: regDate}
+                } else {
+                    return b
+                }
+            })
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -87,6 +99,6 @@ export const boardSlice = createSlice({
     }
 })
 
-export const { addBoard } = boardSlice.actions
+export const { addBoard, editBoard } = boardSlice.actions
 
 export default boardSlice.reducer
