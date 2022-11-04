@@ -36,10 +36,10 @@ const BoardEdit = (id: any) => {
     const onValid = (data: FormType) => {
         axios.put(`http://localhost:3001/board/${id.id}`, data)
             .then(async (res) => {
-                console.log('수정 성공', res)
+                // console.log('수정 성공', res)
                 dispatch(editBoard(res.data))
                 alert('게시글 수정 성공')
-                // await router.replace(`/board/view/${id.id}`)
+                await router.replace(`/board/view/${id.id}`)
             })
     }
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수

@@ -70,9 +70,8 @@ export const boardSlice = createSlice({
         editBoard: (state: BoardState, action: PayloadAction<Board>) => {
             // console.log('액션 함수 실행', action.payload)
             const {title, content, author, regDate} = action.payload
-
+            // 기존 state 배열에서 반복문을 통해 액션에 담겨온 게시글 id와 기존 id(idx+1)와 일치하면 객체 수정
             state.board = state.board.map((b, idx) => {
-                console.log(idx === action.payload.id)
                 if (idx === action.payload.id) {
                     return {...b, title: title, content: content, author: author, regDate: regDate}
                 } else {
