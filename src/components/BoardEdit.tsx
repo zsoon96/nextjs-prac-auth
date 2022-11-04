@@ -2,6 +2,7 @@ import {FieldErrors, useForm} from "react-hook-form";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import {useRouter} from "next/router";
+import {editBoard} from "../modules/board";
 import {useEffect, useState} from "react";
 
 // 게시글 작성 UI 컴포넌트
@@ -36,10 +37,9 @@ const BoardEdit = (id: any) => {
         axios.put(`http://localhost:3001/board/${id.id}`, data)
             .then(async (res) => {
                 console.log('수정 성공', res)
-                // @ts-ignore
-                // dispatch(addBoard(res.data))
+                dispatch(editBoard(res.data))
                 alert('게시글 수정 성공')
-                await router.replace(`/board/view/${id.id}`)
+                // await router.replace(`/board/view/${id.id}`)
             })
     }
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수
