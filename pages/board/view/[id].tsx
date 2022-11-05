@@ -42,7 +42,7 @@ const BoardDetail = ({board} : any) => {
 export async function getServerSideProps( {params}:any ) {
     // const id = context.query.id
     const id = params.id
-    console.log('id', id)
+    // console.log('id', id)
     const board: Board = await (await axios.get(`http://localhost:3001/board/${id}`)).data;
     return {
         props: { board },
