@@ -22,7 +22,7 @@ const BoardInfo = ({board}: BoardInfoProps) => {
 
     const handleRemove = () => {
         axios.delete(`http://localhost:3001/board/${board.id}`)
-            .then( res => {
+            .then( () => {
                 dispatch(removeBoard(board));
                 alert('게시글 삭제 성공')
                 router.replace('/board')

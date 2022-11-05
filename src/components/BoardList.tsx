@@ -15,7 +15,7 @@ type BoardInfoProps = {
 const BoardList = ({boards}: BoardInfoProps) => {
     return (
         <div>
-            {boards && boards.map((board) => (
+            {boards && boards.map((board, idx) => (
                 <div key={board.id} style={{
                     backgroundColor: 'white',
                     width: '80%',
@@ -25,7 +25,7 @@ const BoardList = ({boards}: BoardInfoProps) => {
                 }}>
                     <Link href={`board/view/${board.id}`}>
                         <a>
-                            <p style={{color: 'black'}}>NO {board.id}</p>
+                            <p style={{color: 'black'}}>NO {idx + 1}</p>
                             <p style={{color: 'black', fontSize: '24px'}}>{board.title}</p>
                             <hr/>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
