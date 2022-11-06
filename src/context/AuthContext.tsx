@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
-import { NextApiResponse } from "next";
+import {setToken} from '../config/TokenManager'
 
 // 현재 사용자의 인증상태를 추적하는 파일
 
@@ -72,8 +72,11 @@ export const AuthContextProvider = ({children}) => {
             .then(async res => {
                 window.localStorage.setItem('accessToken', res.data.accessToken)
 
+                // 받은 엑세스 토큰 쿠키에 저장
+                setToken(res.data.accessToken)
+
                 // 모든 요청에 토큰 장착
-                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
+                // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
             })
             .then(()=>{
                 axios.get('http://localhost:3001/auth/me')
@@ -102,5 +105,4 @@ export const AuthContextProvider = ({children}) => {
         </AuthContext.Provider>
     )
 };
-
 export default AuthContext
