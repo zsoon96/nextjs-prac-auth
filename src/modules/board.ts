@@ -71,8 +71,8 @@ export const boardSlice = createSlice({
             // console.log('액션 함수 실행', action.payload)
             const {title, content, author, regDate} = action.payload
             // 기존 state 배열에서 반복문을 통해 액션에 담겨온 게시글 id와 기존 id(idx+1)와 일치하면 객체 수정
-            state.board = state.board.map((b, idx) => {
-                if (idx + 1 === action.payload.id) {
+            state.board = state.board.map((b) => {
+                if (b.id === action.payload.id) {
                     return {...b, title: title, content: content, author: author, regDate: regDate}
                 } else {
                     return b
@@ -80,9 +80,8 @@ export const boardSlice = createSlice({
             })
         },
         removeBoard: (state:BoardState, action: PayloadAction<Board>) => {
-            console.log('gg', action.payload)
-            state.board = state.board.filter((b, idx) => {
-                return action.payload.id !== idx + 1
+            state.board = state.board.filter((b) => {
+                return action.payload.id !== b.id
             })
         }
     },
