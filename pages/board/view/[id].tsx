@@ -1,5 +1,6 @@
 import BoardInfo from "../../../src/components/BoardInfo";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 interface Board {
     id: number,
@@ -14,9 +15,9 @@ interface Board {
 // }
 
 // board는 getServerSideProps에서 조회해서 받은 정보
-const BoardDetail = ({board} : any) => {
-    // const router = useRouter()
-    // const { id } = router.query
+const BoardDetail = ({board}: any) => {
+    const router = useRouter()
+    const {no}: any = router.query
 
     // url의 id값으로 비동기 통신 요청 시도 1 - useEffect로 데이터를 가져오면 network error 발생
     // useEffect( () => {
@@ -31,7 +32,7 @@ const BoardDetail = ({board} : any) => {
         <>
             {board && (
                 <>
-                    <BoardInfo board={board}/>
+                    <BoardInfo board={board} no={no}/>
                 </>
             )}
         </>
@@ -39,13 +40,13 @@ const BoardDetail = ({board} : any) => {
 }
 
 // 데이터 받아오기 위한 SSR
-export async function getServerSideProps( {params}:any ) {
+export async function getServerSideProps({params}: any) {
     // const id = context.query.id
     const id = params.id
     // console.log('id', id)
     const board: Board = await (await axios.get(`http://localhost:3001/board/${id}`)).data;
     return {
-        props: { board },
+        props: {board},
     };
 }
 

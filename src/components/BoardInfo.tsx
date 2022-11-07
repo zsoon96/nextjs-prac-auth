@@ -14,8 +14,9 @@ interface Board {
 
 type BoardInfoProps = {
     board: Board
+    no: any
 }
-const BoardInfo = ({board}: BoardInfoProps) => {
+const BoardInfo = ({board, no}: BoardInfoProps) => {
     // console.log('컴포넌트간 정보 전달', board)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -32,7 +33,7 @@ const BoardInfo = ({board}: BoardInfoProps) => {
 
     return (
         <div style={{width: '80%', margin: '36px auto', borderRadius: '10px', padding: '10px 24px'}}>
-            <p>NO {board.id}</p>
+            <p>NO {no}</p>
             <hr style={{border: '0.25px solid gray'}}/>
             <p style={{fontSize: '36px', fontWeight: 'bold', marginTop: '24px', marginBottom: 0}}>{board.title}</p>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
