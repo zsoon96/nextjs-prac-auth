@@ -17,8 +17,6 @@ export const loadBoard = createAsyncThunk('board/loadBoard', async () => {
     }
 })
 
-// export const addBoard = createAction('board/addBoard')
-
 // 게시글에 대한 타입 정의
 interface Board  {
     id: number
@@ -27,14 +25,6 @@ interface Board  {
     content: string
     regDate: string
 }
-
-// export type Index = {
-//     id: number,
-//     title: string,
-//     author: string,
-//     content: string,
-//     regDate: string
-// }
 
 // 리듀서에서 관리할 상태값 정의
 interface BoardState {

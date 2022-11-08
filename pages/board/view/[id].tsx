@@ -10,10 +10,6 @@ interface Board {
     regDate: string
 }
 
-// type BoardInfoProps = {
-//     board: Board
-// }
-
 // board는 getServerSideProps에서 조회해서 받은 정보
 const BoardDetail = ({board}: any) => {
     const router = useRouter()

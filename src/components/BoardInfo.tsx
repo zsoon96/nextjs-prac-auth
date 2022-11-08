@@ -17,7 +17,6 @@ type BoardInfoProps = {
     no: any
 }
 const BoardInfo = ({board, no}: BoardInfoProps) => {
-    // console.log('컴포넌트간 정보 전달', board)
     const dispatch = useDispatch()
     const router = useRouter()
 

@@ -14,7 +14,7 @@ interface FormType {
     author: string
 }
 
-const BoardEdit = (id: any) => {
+const BoardEdit = (id: any, no: any) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const [board, setBoard] = useState<FormType>({
@@ -38,8 +38,12 @@ const BoardEdit = (id: any) => {
             .then(async (res) => {
                 // console.log('수정 성공', res)
                 dispatch(editBoard(res.data))
+
                 alert('게시글 수정 성공')
-                await router.replace(`/board/view/${id.id}`)
+                await router.replace({
+                    pathname: `/board/view/${id.id}`,
+                    query: {no: no}
+                })
             })
     }
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수

@@ -1,8 +1,7 @@
-import {FieldError, FieldErrors, useForm} from "react-hook-form";
+import {FieldErrors, useForm} from "react-hook-form";
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {router} from "next/client";
-import Board, {addBoard} from "../modules/board";
+import {addBoard} from "../modules/board";
 import {useRouter} from "next/router";
 
 // 게시글 작성 UI 컴포넌트
@@ -26,9 +25,6 @@ const BoardInsert = () => {
 
     // 입력된 데이터가 유효하다면 실행될 함수
     const onValid = (data: FormType) => {
-        // setValue("title", "제목은 이걸로 입력되게 하기")
-        // console.log(data)
-        // reset()
         axios.post('http://localhost:3001/board/v2', data)
             .then(async (res) => {
                 console.log('등록 성공', res)

@@ -1,16 +1,5 @@
-import {
-    GetServerSideProps,
-    GetServerSidePropsContext,
-    GetStaticPaths,
-    GetStaticProps,
-    GetStaticPropsContext,
-    InferGetStaticPropsType
-} from "next";
+import {GetServerSideProps, GetServerSidePropsContext, GetStaticProps, InferGetStaticPropsType} from "next";
 import BoardEdit from "../../../src/components/BoardEdit";
-import axios from "axios";
-import Board from "../index";
-import {AppContext} from "next/app";
-import context from "react-redux/src/components/Context";
 
 interface Board {
     id: number
@@ -26,7 +15,7 @@ const BoardEditPage = ({id}: InferGetStaticPropsType<typeof GetStaticProps>) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-    // console.log('ctx', context.params)
+    console.log('ctx', context.params)
 
     const params = context.params
 

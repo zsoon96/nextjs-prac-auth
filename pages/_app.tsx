@@ -7,21 +7,16 @@ import App from "next/app";
 import cookies from 'next-cookies';
 import {setToken} from "../src/config/TokenManager";
 
-
-// const store = createStore(rootReducer)
-
 // @ts-ignore
 function MyApp({Component, pageProps}: AppProps) {
 
     return (
-        // <Provider session={session}>
         // 리덕스 적용
         <Provider store={store}>
             <AuthContextProvider>
                 <Component {...pageProps} />
             </AuthContextProvider>
         </Provider>
-        // </Provider>
     )
 }
 

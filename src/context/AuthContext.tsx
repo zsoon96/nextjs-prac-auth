@@ -9,8 +9,6 @@ import {setToken} from '../config/TokenManager'
 const AuthContext = createContext({
     user: null,
     login: () => Promise.resolve(),
-    // logout: () => {
-    // },
     isAuth: false
 });
 
@@ -28,19 +26,6 @@ export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const router = useRouter()
-
-    // const login = () => {
-    //     axios.get('/api/isLogin').then((res) => {
-    //         if (res.status === 200 && res.data.name) {
-    //             // 로그인
-    //             setUser(res.data.name)
-    //             setIsAuth(true)
-    //         } else {
-    //             // 로그인 안됨
-    //             router.push('/login')
-    //         }
-    //     })
-    // }
 
     useEffect(() => {
         const initAuth = async ():Promise<void> => {
@@ -74,9 +59,6 @@ export const AuthContextProvider = ({children}) => {
 
                 // 받은 엑세스 토큰 쿠키에 저장
                 setToken(res.data.accessToken)
-
-                // 모든 요청에 토큰 장착
-                // axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`
             })
             .then(()=>{
                 axios.get('http://localhost:3001/auth/me')
@@ -85,9 +67,6 @@ export const AuthContextProvider = ({children}) => {
                         setUser({...res.data})
                         setIsAuth(true)
 
-                        // const returnUrl = router.query.returnUrl
-                        // const redirectUrl = returnUrl && returnUrl !== '/' ? returnUrl : '/'
-                        // router.replace(redirectUrl as string)
                         await router.push('/')
                     })
             })
