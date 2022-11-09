@@ -26,6 +26,10 @@ export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const router = useRouter()
+    const { returnUrl } = router.query;
+    console.log('returnUrl', returnUrl)
+    const currentUrl = router.asPath
+    console.log('currentUrl', currentUrl)
 
     useEffect(() => {
         const initAuth = async ():Promise<void> => {
@@ -38,6 +42,14 @@ export const AuthContextProvider = ({children}) => {
                     .then((res)=> {
                         console.log(res)
                         setUser({...res.data})
+
+                        console.log(returnUrl)
+                        if(router.query.returnUrl) {
+                            router.replace(returnUrl as string)
+                        } else {
+                            router.push('/')
+                        }
+
                     })
                     .catch(() => {
                         window.localStorage.removeItem('accessToken')
@@ -46,7 +58,7 @@ export const AuthContextProvider = ({children}) => {
                     })
             } else {
                 setIsAuth(false)
-                await router.replace('/login')
+                await router.replace(`/login/?returnUrl=${currentUrl}`)
             }
         }
         initAuth();
@@ -67,7 +79,7 @@ export const AuthContextProvider = ({children}) => {
                         setUser({...res.data})
                         setIsAuth(true)
 
-                        await router.push('/')
+                        // await router.push('/')
                     })
             })
             .catch(err => {
