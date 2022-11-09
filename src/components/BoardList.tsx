@@ -1,4 +1,6 @@
 import Link from "next/link";
+import {useContext} from "react";
+import AuthContext from "../context/AuthContext";
 
 interface Board {
     id: number,

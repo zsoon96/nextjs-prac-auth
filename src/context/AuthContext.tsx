@@ -26,10 +26,8 @@ export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const router = useRouter()
-    const { returnUrl } = router.query;
-    console.log('returnUrl', returnUrl)
     const currentUrl = router.asPath
-    console.log('currentUrl', currentUrl)
+    const { returnUrl } = router.query
 
     useEffect(() => {
         const initAuth = async ():Promise<void> => {
@@ -42,14 +40,6 @@ export const AuthContextProvider = ({children}) => {
                     .then((res)=> {
                         console.log(res)
                         setUser({...res.data})
-
-                        console.log(returnUrl)
-                        if(router.query.returnUrl) {
-                            router.replace(returnUrl as string)
-                        } else {
-                            router.push('/')
-                        }
-
                     })
                     .catch(() => {
                         window.localStorage.removeItem('accessToken')
@@ -58,6 +48,7 @@ export const AuthContextProvider = ({children}) => {
                     })
             } else {
                 setIsAuth(false)
+                // 로그인이 안되어있다면 접근 페이지 경로 정보와 함께 로그인 페이지로 이동
                 await router.replace(`/login/?returnUrl=${currentUrl}`)
             }
         }
@@ -79,7 +70,12 @@ export const AuthContextProvider = ({children}) => {
                         setUser({...res.data})
                         setIsAuth(true)
 
-                        // await router.push('/')
+                        // 로그인 성공 시, 접근했던 페이지로 이동 처리
+                        if(router.query.returnUrl) {
+                            await router.replace(returnUrl as string)
+                        } else {
+                            await router.push('/')
+                        }
                     })
             })
             .catch(err => {
