@@ -19,7 +19,8 @@ const StatePrac = () => {
 
     // 처음 페이지가 로드될 때도 한번 실행이 되기 때문에 초기 값이 20 + 1로 반영
     useEffect(() => {
-        if (count < 3) {
+        // count가 0(첫 로딩 시)일 때는 코드 동작 안하는 조건 추가
+        if (count != 0 && count < 3) {
             setAge(age + 1)
         }
     },[count])
@@ -27,7 +28,7 @@ const StatePrac = () => {
     const handleAgeChange = () => {
         setCount(count + 1)
     }
-    // 예상 결과 22 > 출력 결과 21 - 22 - 23
+    // 예상 결과 22 > 출력 결과 20 - 21 - 22
 
     return (
         <div>
