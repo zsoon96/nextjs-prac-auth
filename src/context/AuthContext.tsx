@@ -35,6 +35,9 @@ export const AuthContextProvider = ({children}) => {
 
             if ( accessToken ) {
                 setIsAuth(true)
+                // 사용자 조회 할 때마다 엑세스 토큰 서버측 쿠키에 저장 = 로그인 유지(?)
+                // 해당 처리가 없으면 이용 중간에 401 에러 발생
+                setToken(accessToken)
 
                 await axios.get('http://localhost:3001/auth/me', {headers: {Authorization: 'Bearer ' + accessToken}})
                     .then((res)=> {
