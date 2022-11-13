@@ -25,9 +25,9 @@ const BoardList = ({boards}: BoardInfoProps) => {
                     borderRadius: '10px',
                     padding: '10px 24px'
                 }}>
-                    <Link href={{pathname: `board/view/${board.id}`, query: {no: idx + 1}}}>
+                    <Link href={{pathname: `board/view/${board.id}`, query: {no: boards.length - idx}}}>
                         <a>
-                            <p style={{color: 'black'}}>NO {idx + 1}</p>
+                            <p style={{color: 'black'}}>NO {boards.length - idx}</p>
                             <p style={{color: 'black', fontSize: '24px'}}>{board.title}</p>
                             <hr/>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
