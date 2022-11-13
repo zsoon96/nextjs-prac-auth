@@ -14,7 +14,12 @@ interface FormType {
     author: string
 }
 
-const BoardEdit = (id: any, no: any) => {
+type BoardEditProps = {
+    id: number
+    no: any
+}
+
+const BoardEdit = ({id, no}: BoardEditProps) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const [board, setBoard] = useState<FormType>({
@@ -26,7 +31,7 @@ const BoardEdit = (id: any, no: any) => {
     const {register, handleSubmit, reset, setValue, formState: {errors}} = useForm<FormType>()
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/board/${id.id}`)
+        axios.get(`http://localhost:3001/board/${id}`)
             .then((res) => {
                 setBoard(res.data)
             })
@@ -34,14 +39,14 @@ const BoardEdit = (id: any, no: any) => {
 
     // 입력된 데이터가 유효하다면 실행될 함수
     const onValid = (data: FormType) => {
-        axios.put(`http://localhost:3001/board/${id.id}`, data)
+        axios.put(`http://localhost:3001/board/${id}`, data)
             .then(async (res) => {
                 // console.log('수정 성공', res)
                 dispatch(editBoard(res.data))
 
                 alert('게시글 수정 성공')
                 await router.replace({
-                    pathname: `/board/view/${id.id}`,
+                    pathname: `/board/view/${id}`,
                     query: {no: no}
                 })
             })
@@ -49,17 +54,24 @@ const BoardEdit = (id: any, no: any) => {
     // 입력된 데이터가 유효하지 않다면 실행될 에러 함수
     const onInvalid = (errors: FieldErrors) => console.log(errors)
 
+    const handleGoBack = () => {
+        router.push({
+            pathname: `/board/view/${id}`,
+            query: {no: no}
+        })
+    }
+
     return (
-        // 최종 호출 시, 데이터 처리 함수
-        // handleSubmit (유효한 입력 값일 때 실행할 함수, 유효하지 않은 값일 때 실행할 에러 함수)
-        <form noValidate autoComplete="off" onSubmit={handleSubmit(onValid, onInvalid)}>
-            <div style={{
-                backgroundColor: 'white',
-                width: '80%',
-                margin: '100px auto',
-                borderRadius: '10px',
-                padding: '36px 36px',
-            }}>
+        <div style={{
+            backgroundColor: 'white',
+            width: '80%',
+            margin: '100px auto',
+            borderRadius: '10px',
+            padding: '36px 36px',
+        }}>
+            {/*// 최종 호출 시, 데이터 처리 함수*/}
+            {/*// handleSubmit (유효한 입력 값일 때 실행할 함수, 유효하지 않은 값일 때 실행할 에러 함수)*/}
+            <form noValidate autoComplete="off" onSubmit={handleSubmit(onValid, onInvalid)}>
                 <div style={{color: 'black', marginBottom: '20px'}}>
                     <div style={{marginBottom: '10px'}}>제목</div>
                     <input
@@ -97,8 +109,9 @@ const BoardEdit = (id: any, no: any) => {
                     <span style={{color: 'red', fontSize: '14px'}}>{errors.author?.message}</span>
                 </div>
                 <input type="submit" style={{padding: '10px', borderRadius: '8px'}}/>
-            </div>
-        </form>
+            </form>
+                <button style={{padding: '10px', borderRadius: '8px', marginTop: '10px'}} onClick={handleGoBack}>back</button>
+        </div>
     )
 }
 

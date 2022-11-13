@@ -1,5 +1,6 @@
 import {GetServerSideProps, GetServerSidePropsContext, GetStaticProps, InferGetStaticPropsType} from "next";
 import BoardEdit from "../../../src/components/BoardEdit";
+import {useRouter} from "next/router";
 
 interface Board {
     id: number
@@ -11,7 +12,10 @@ interface Board {
 
 // @ts-ignore
 const BoardEditPage = ({id}: InferGetStaticPropsType<typeof GetStaticProps>) => {
-    return <BoardEdit id={id}/>
+    const router = useRouter()
+    const {no} = router.query
+
+    return <BoardEdit id={id} no={no}/>
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {

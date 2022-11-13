@@ -1,5 +1,4 @@
 import Board, {removeBoard} from "../modules/board";
-import Link from "next/link";
 import {useDispatch} from "react-redux";
 import axios from "axios";
 import {useRouter} from "next/router";
@@ -20,9 +19,13 @@ const BoardInfo = ({board, no}: BoardInfoProps) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const handleEdit = () => {
+        router.push(`/board/edit/${board.id}/?no=${no}`)
+    }
+
     const handleRemove = () => {
         axios.delete(`http://localhost:3001/board/${board.id}`)
-            .then( () => {
+            .then(() => {
                 dispatch(removeBoard(board));
                 alert('게시글 삭제 성공')
                 router.replace('/board')
@@ -43,9 +46,11 @@ const BoardInfo = ({board, no}: BoardInfoProps) => {
             <p style={{fontSize: '24px', height: '240px'}}>{board.content}</p>
             <hr style={{border: '0.25px solid gray'}}/>
 
-            <Link href={`/board/edit/${board.id}`}>
-                <button style={{padding: '12px', borderRadius: '8px', border: 'none', marginRight: '8px', marginTop: '4px'}}>수정</button>
-            </Link>
+            {/*<Link href={`/board/edit/${board.id}`}>*/}
+            <button style={{padding: '12px', borderRadius: '8px', border: 'none', marginRight: '8px', marginTop: '4px'}}
+                    onClick={handleEdit}>수정
+            </button>
+            {/*</Link>*/}
             <button onClick={handleRemove} style={{padding: '12px', borderRadius: '8px', border: 'none'}}>삭제</button>
         </div>
     )
