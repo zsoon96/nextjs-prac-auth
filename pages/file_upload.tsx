@@ -17,12 +17,24 @@ const FileUpload = () => {
 
         const res = await axios.post('http://localhost:3001/file/upload', formData )
         console.log(res)
+
+        alert('파입 업로드 성공!')
+        window.location.reload()
     }
 
+    // 파일 선택 시 실행하는 함수
     const handleChangeFile = ({target} :any) => {
         const files = Array.from(target.files)
-        uploadFile(files)
         setFiles(files)
+    }
+
+    // 파일 등록 버튼 클릭 시 실행하는 함수
+    const handleUploadFile = () => {
+        if ( files.length !== 0 ) {
+            uploadFile(files)
+        } else {
+            alert('업로드할 파일이 없습니다!')
+        }
     }
 
     // 사이즈 단위 변환 (byte > kb/mb/gb)
@@ -52,6 +64,8 @@ const FileUpload = () => {
             {files.length !== 0 ? files.map((file) => <div style={{ marginTop: '10px'}}>
                 {file.name} - {getByteSize(file.size)}
             </div>) : null}
+
+            <button style={{ marginTop: '16px'}} onClick={handleUploadFile}>이미지 등록</button>
         </div>
     )
 }
