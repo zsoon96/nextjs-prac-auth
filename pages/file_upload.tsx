@@ -4,6 +4,7 @@ import {useState} from "react";
 const FileUpload = () => {
 
     const [files, setFiles] = useState<any[]>([]);
+    // const [thumbnail, setThumbnail] = useState<string[]>([])
 
     const uploadFile = async(files: any[]) => {
         console.log(files)
@@ -26,6 +27,11 @@ const FileUpload = () => {
     const handleChangeFile = ({target} :any) => {
         const files = Array.from(target.files)
         setFiles(files)
+
+        // files.map((file : any) => {
+        //     let url = URL.createObjectURL(file)
+        //     setThumbnail([url, ...thumbnail])
+        // })
     }
 
     // 파일 등록 버튼 클릭 시 실행하는 함수
@@ -61,7 +67,8 @@ const FileUpload = () => {
 
             <hr style={{ 'marginTop' : '14px', 'marginBottom': '14px'}}/>
 
-            {files.length !== 0 ? files.map((file) => <div style={{ marginTop: '10px'}}>
+            {files.length !== 0 ? files.map((file, idx) => <div style={{ marginTop: '10px', display: 'flex'}}>
+                <div><img alt="test" src={URL.createObjectURL(file)}/></div>
                 {file.name} - {getByteSize(file.size)}
             </div>) : null}
 
