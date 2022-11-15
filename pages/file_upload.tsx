@@ -67,9 +67,13 @@ const FileUpload = () => {
 
             <hr style={{ 'marginTop' : '14px', 'marginBottom': '14px'}}/>
 
-            {files.length !== 0 ? files.map((file, idx) => <div style={{ marginTop: '10px', display: 'flex'}}>
-                <div><img alt="test" src={URL.createObjectURL(file)}/></div>
-                {file.name} - {getByteSize(file.size)}
+            {files.length !== 0 ? files.map((file) => <div style={{ marginTop: '10px', display: 'flex'}}>
+                {/* createObjectURL(): 파일 객체를 url로 바꿔주는 함수 (단, 브라우저에서만 사용 가능) */}
+                <img alt="test" src={URL.createObjectURL(file)} style={{ width: '50px', margin: '0 10px'}}/>
+                <div style={{ display: 'flex', flexDirection: 'column'}}>
+                    <div>{file.name}</div>
+                    <div style={{ marginTop: '4px'}}>{getByteSize(file.size)}</div>
+                </div>
             </div>) : null}
 
             <button style={{ marginTop: '16px'}} onClick={handleUploadFile}>이미지 등록</button>
