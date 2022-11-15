@@ -43,6 +43,13 @@ const FileUpload = () => {
         }
     }
 
+    // 파일 삭제 버튼 클릭 시 실행하는 함수
+    const handleRemoveFile = (idx: number) => {
+        // filter(조건, 인덱스): 조건에 true인 것만 다시 담아서 반환
+        // 조건이 없을 경우에 아래와 같이 '_' 사용
+        setFiles(files.filter((_, index) => index !== idx))
+    }
+
     // 사이즈 단위 변환 (byte > kb/mb/gb)
     const getByteSize = (size :number) => {
         // 각 데이터의 크기는 1024의 제곱
@@ -67,13 +74,17 @@ const FileUpload = () => {
 
             <hr style={{ 'marginTop' : '14px', 'marginBottom': '14px'}}/>
 
-            {files.length !== 0 ? files.map((file) => <div style={{ marginTop: '10px', display: 'flex'}}>
+            {files.length !== 0 ? files.map((file, idx) => <div style={{ marginTop: '10px', display: 'flex'}}>
                 {/* createObjectURL(): 파일 객체를 url로 바꿔주는 함수 (단, 브라우저에서만 사용 가능) */}
                 <img alt="test" src={URL.createObjectURL(file)} style={{ width: '50px', margin: '0 10px'}}/>
-                <div style={{ display: 'flex', flexDirection: 'column'}}>
-                    <div>{file.name}</div>
-                    <div style={{ marginTop: '4px'}}>{getByteSize(file.size)}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '45vw'}}>
+                    <div style={{ display: 'flex', flexDirection: 'column', marginRight: '10px'}}>
+                        <div>{file.name}</div>
+                        <div style={{ marginTop: '4px'}}>{getByteSize(file.size)}</div>
+                    </div>
+                    <button onClick={() => handleRemoveFile(idx)}>삭제</button>
                 </div>
+
             </div>) : null}
 
             <button style={{ marginTop: '16px'}} onClick={handleUploadFile}>이미지 등록</button>
